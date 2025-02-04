@@ -1,8 +1,6 @@
-// pages/product/[[...id]].js (Server Component)
-
-
 import SingleProductClient from "@/app/components/SingleProductClient";
 import { client } from "@/sanity/lib/client";
+
 
 // Static params generation for dynamic routing
 export async function generateStaticParams() {
@@ -16,10 +14,8 @@ export async function generateStaticParams() {
 }
 
 const SingleProductPage = ({ params }: { params: { id: string[] } }) => {
-  const { id } = params;  // Resolve the id from params (now it will be an array)
-
-  // Since `id` is an array (because of [[...id]]), we take the first element
-  const productId = id[0]; 
+  // Since the id is an array (because of [[...id]]), we take the first element
+  const productId = params.id[0];
 
   return (
     <div>

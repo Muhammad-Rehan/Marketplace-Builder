@@ -1,4 +1,3 @@
-// components/SingleProductClient.js (Client Component)
 "use client";  // Client-side component
 
 import { CartContext } from "@/app/components/context/CartContext";
@@ -8,6 +7,7 @@ import Link from "next/link";
 import React, { useContext, useEffect, useState } from "react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 
+// Fetch the product data
 const getSingleProduct = async (id: string) => {
   const query = `*[_type== 'product' && _id == '${id}']{
     _id,
@@ -41,7 +41,7 @@ const SingleProductClient = ({ id }: { id: string }) => {
   }, [id]);
 
   if (!product) {
-    return <div>Loading...</div>;
+    return <div>Loading...</div>; // Handle loading state
   }
 
   return (
