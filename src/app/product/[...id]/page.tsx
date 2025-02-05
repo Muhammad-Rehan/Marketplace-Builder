@@ -1,13 +1,16 @@
-"use client";
+"use client"
+
 import { CartContext } from "@/app/components/context/CartContext";
 import { client } from "@/sanity/lib/client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useContext, useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import { useContext, useEffect, useState } from "react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 
-const getSingleProduct = async (id: string) => {
-  const query = `*[_type== 'product' && _id == '${id}']{
+// Fetch single product data
+const getSingleProduct = async (id: any) => {
+  const query = `*[_type == 'product' && _id == '${id}']{
     _id,
     name,
     "imageURL" : image.asset->url,
@@ -23,34 +26,33 @@ const getSingleProduct = async (id: string) => {
   return productData;
 };
 
-const SingleProduct = ({ params }: { params: Promise<{ id: string }> }) => {
-  const { qty, incQty, decQty,  handleAddProduct }: any = useContext(CartContext);
-  const [product, setProduct] = useState<any>(null);
-  
-  // Use React.use to unwrap params and get the id
-  const { id } = React.use(params); // unwrap params to access `id`
 
+// Page Component
+const SingleProduct = () => {
+  const params = useParams();
+  const { qty, incQty, decQty, handleAddProduct }: any = useContext(CartContext);
+  const [product, setProduct] = useState<any>(null);
+
+  // Fetch the product data when the component mounts
   useEffect(() => {
     const fetchProduct = async () => {
-      if (id) {
-        const productData = await getSingleProduct(id);
+      if (params.id) {
+        const productData = await getSingleProduct(params.id);
         setProduct(productData);
       }
     };
 
     fetchProduct();
-  }, [id]);
+  }, [params.id]);
 
   if (!product) {
-    return <div>Loading...</div>; // Handle loading state
+    return <div>Loading...</div>; // Show loading while data is being fetched
   }
 
   return (
     <div className="w-[900px] h-[400px] mx-auto mt-10 mb-10 flex gap-2 ">
       <div className="w-[300px] h-[400px] bg-fuchsia-100  rounded-md ">
-        <Link className="bg-cyan-300 p-2" href={'/'}>
-          Back
-        </Link>
+        <Link className="bg-cyan-300 p-2" href={'/'}>Back</Link>
         <Image src={product.imageURL} width={300} height={400} alt="image" />
       </div>
       <div className="w-[600px] h-[400px] bg-violet-100 p-5  rounded-md">
@@ -64,16 +66,13 @@ const SingleProduct = ({ params }: { params: Promise<{ id: string }> }) => {
         <h1 className="font-bold">Stock: {product.stockLevel}</h1>
         <h1 className="font-bold">Category: {product.category}</h1>
         <div className="flex gap-5">
-          <button></button>
-          <div className='flex  gap-2 items-center justify-center  mt-2'>
+          <div className='flex gap-2 items-center justify-center mt-2'>
             <h3>Quantity</h3>
             <p className='p-[6px]  gap-5 flex border border-black items-center cursor-pointer '>
               <span className='text-red-700'>
                 <AiOutlineMinus onClick={decQty} />
               </span>
-              <span className='text-[20px]'>
-                {qty}
-              </span>
+              <span className='text-[20px]'>{qty}</span>
               <span className='text-green-800'>
                 <AiOutlinePlus onClick={incQty} />
               </span>
@@ -82,7 +81,7 @@ const SingleProduct = ({ params }: { params: Promise<{ id: string }> }) => {
         </div>
         <div className="flex gap-5 justify-start items-center mt-5">
           <button className="bg-orange-400 hover:bg-orange-200 p-3 rounded-md">Buy Now</button>
-          <button className="bg-blue-400 hover:bg-blue-200 p-3 rounded-md" onClick={()=>handleAddProduct(product, qty)}>Add to Cart</button>
+          <button className="bg-blue-400 hover:bg-blue-200 p-3 rounded-md" onClick={() => handleAddProduct(product, qty)}>Add to Cart</button>
         </div>
       </div>
     </div>
