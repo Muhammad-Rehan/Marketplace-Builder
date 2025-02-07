@@ -5,6 +5,7 @@ import "./globals.css";
 import { CartProvider } from "./components/context/CartContext";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import Head from "next/head";
 
 
 const geistSans = Geist({
@@ -29,6 +30,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+       <Head>
+        <link rel="preload" href="/_next/static/css/2a746b96d260b8b6.css" as="style" />
+      </Head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

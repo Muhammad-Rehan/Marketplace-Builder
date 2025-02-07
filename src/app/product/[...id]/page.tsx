@@ -23,6 +23,7 @@ const getSingleProduct = async (id: any) => {
   }[0]`;
 
   const productData = await client.fetch(query);
+  
   return productData;
 };
 
@@ -31,7 +32,7 @@ const getSingleProduct = async (id: any) => {
 const SingleProduct = () => {
   const params = useParams();
   const { qty, incQty, decQty, handleAddProduct }: any = useContext(CartContext);
-  const [product, setProduct] = useState<any>(null);
+  const [product, setProduct] = useState<any>([]);
 
   // Fetch the product data when the component mounts
   useEffect(() => {
@@ -44,8 +45,8 @@ const SingleProduct = () => {
 
     fetchProduct();
   }, [params.id]);
-
   if (!product) {
+    
     return <div>Loading...</div>; // Show loading while data is being fetched
   }
 
