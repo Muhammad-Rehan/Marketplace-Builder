@@ -31,8 +31,8 @@ export default function RootLayout({
   return (
     <html lang="en">
        <Head>
-       <link rel="stylesheet" href="/_next/static/css/eef5a398688b919a.css" data-precedence="next" />
-       <link rel="stylesheet" href="/_next/static/css/390e27c7022f2116.css" data-precedence="next" />
+       <link rel="stylesheet" href="/_next/static/css/eef5a398688b919a.css" as="style" />
+       <link rel="stylesheet" href="/_next/static/css/390e27c7022f2116.css" as="style"  />
        <link rel="stylesheet" href="/_next/static/css/2a746b96d260b8b6.css" as="style" />
       </Head>
       <body
